@@ -1,10 +1,14 @@
 import axios from 'axios'
 
-var storage = localStorage
+var storage = sessionStorage
 
 var requestGridBookmarkStores = function(data, callback) {
   axios
-    .get('http://13.124.1.176:8080/bookmark/' + data)
+    .get('http://13.124.1.176/bookmark/' + data, {
+      headers: {
+        'Authorization': storage.getItem('token')
+      }
+    })
     .then(response => {
       callback(response.data.data)
     })
@@ -12,7 +16,7 @@ var requestGridBookmarkStores = function(data, callback) {
 
 var requestGridBookmarkPost = function(data, callback, errorCallback) {
   axios
-    .post('http://13.124.1.176:8080/bookmark', data, {
+    .post('http://13.124.1.176/bookmark', data, {
       headers: {
         'Authorization': storage.getItem('token')
       }

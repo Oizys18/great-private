@@ -8,14 +8,14 @@
     </v-list-item-icon>
 
     <!-- 북마크 이름 -->
-    <v-list-item-content class="girdbookmark-elem-title" @click="gridDetail(gridbookmarkItem.id)">
-      <v-list-item-title v-if="!editFlag">{{gridbookmarkItem.name}} </v-list-item-title>
+
+    <v-list-item-content class="girdbookmark-elem-title" >
+      <v-list-item-title v-if="!editFlag" @click="gridDetail(gridbookmarkItem.id)">{{gridbookmarkItem.name}} </v-list-item-title>
       <v-list-item-title v-else>
         <input v-model="editTitle" id="title_modify" name="title_modify" 
         class="title-modify-input" type="text"/> 
       </v-list-item-title>
       
-      <!-- <v-list-item-title v-text="item.title"></v-list-item-title> -->
     </v-list-item-content>
 
     <!-- 수정 버튼-->
@@ -51,7 +51,6 @@ export default {
     return{
       editFlag:false, //그리드 북마크 수정 여부 flag
       isTitleForm:true, //title input text여부 check flag -> 수정확인 버튼 disabled 여부  
-      editTitle:'',
       gridbookmark:{
         id:"",
         name:"",
@@ -61,26 +60,10 @@ export default {
     }
   },
   computed:{
-    // title : function(){
-    //     return this.$store.state.gridbookmarks[this.gridbookmarkIdx].title
-    //     // return gridbookmarkItem.title
-    // },
-    
 
-  },
-  watch:{
-    editTitle:function(){
-      //입력한 title이 맞는 경우인지 검사 -> 수정 확인 버튼 disabled 결정
-      if(this.editTitle.length<=0){
-          this.isTitleForm=false;
-          console.log('title입력안함')
-      }else this.isTitleForm=true;
-
-    }
   },
   methods:{
     clickEditBtn(){
-      console.log('click edit title button!')
       this.editFlag=true;
       this.editTitle=this.gridbookmarkItem.name;
     },
@@ -88,44 +71,27 @@ export default {
       // this.$store.state.gridbookmarks[this.gridbookmarkIdx].name = this.editTitle
       this.gridbookmark = this.gridbookmarkItem;
       this.gridbookmark.name=this.editTitle;
-      console.log('그리드북마크 id:'+this.gridbookmark.id);
-      console.log('그리드북마크 name:'+this.gridbookmark.name);
-      console.log('그리드북마크 type:'+this.gridbookmark.type);
-      console.log('그리드북마크 user:'+this.gridbookmark.user);
 
-       MypageApi.modifyUserInfo(this.gridbookmark,response=>{
-        console.log(response)
-        //this.$store.state.userInfo=response
+       MypageApi.modifyGridbookmark(this.gridbookmarkItem,response=>{
+        if(response=='success'){
+          console.log(this.gridbookmark)
+          this.$store.commit('modifyGridName',this.gridbookmark);
+        }
+        
+        //this.$emit('refreshGrid')
       })
-      //  axios
-      //   .put("http://13.124.1.176:8080/bookmark",{
-      //     params: {
-      //       bookmark: this.gridbookmark
-      //     },
-      //   })
-      //   .then(res=>{
-      //     //gridbookmark목록 수정 완료
-      //     console.log("2.그리드 북마크 수정 완료"+res.data)
-      //     this.editFlag=false;
-      //   }); 
       
       this.editFlag=false;
     },
     delteGridbookmark(){
-      console.log("1.그리드 북마크 삭제 클릭")
-      MypageApi.deleteGridbookmark(this.gridbookmark.id,response=>{
-       console.log(response)
+      MypageApi.deleteGridbookmark(this.gridbookmarkItem.id,response=>{
+       console.log('그리드 북마크 삭제함'+response)
+       this.$store.commit('deleteGridItem',this.gridbookmarkItem.id)
       })
-      // axios
-      //   .delete("http://13.124.1.176:8080/bookmark/{{user.id}}",{
-      //   })
-      //   .then(res=>{
-      //     //gridbookmark목록 삭제
-      //     console.log("2.그리드 북마크 삭제 완료"+res.data)
-      //   });    
     },
     gridDetail(id){ //클릭한 grid bookmark 화면 모달화면으로 넘겨준다.
-      console.log('클릭한 grid bookmark list id:'+id)
+      this.$router.push('/bookmarkGrid?bookmarkId=' + id)
+     
     }
   }
 };
