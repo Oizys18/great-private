@@ -5,12 +5,12 @@
         GrEAT
       </span>
     </span>
-    <div class="big-screen-carousel">
+    <div class="big-screen-carousel"> 
       <div class="index-carousel">
         <v-carousel
           v-model="model"
           height="100vh"
-          hide-delimiter-background
+          hide-delimiter-background 
           show-arrows-on-hover
         >
           <div class="index-card">
@@ -70,7 +70,7 @@ export default {
           "🕵️‍♀️처음 가본 곳의 맛집을 찾고싶을 때!"
         ],
         2: [
-          "🤷‍♂️전혀 어렵지 않아요!!🤷‍♀️",
+          "🤷‍♂️전혀 어렵지 않아요!!🤷‍ ♀️",
           "",
           "1.주소를 입력!",
           "2.원하는 카테고리 선택!",
