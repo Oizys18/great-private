@@ -76,18 +76,18 @@
   transition: all 0.8s ease;
 }
 .static-banner {
+  top: 0;
   display: block;
   position: fixed;
-  top: 0;
   max-width: 13.5vmax;
   max-height: 5.5vmax;
-  -webkit-transition: all 0.8s ease;
   transition: all 0.8s ease;
+  -webkit-transition: all 0.8s ease;
 }
 .static-banner2 {
   display: none;
-  -webkit-transition: all 0.8s ease;
   transition: all 0.8s ease;
+  -webkit-transition: all 0.8s ease;
 }
 
 @media (max-width: 800px) {
@@ -95,10 +95,10 @@
     display: none;
   }
   .static-banner2 {
-    display: block;
     left:5vw;
-    position: fixed;
     top:0.5rem;
+    display: block;
+    position: fixed;
     max-width:50vw;
   }
 }
